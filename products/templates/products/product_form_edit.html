@@ -1,0 +1,41 @@
+{% extends 'layouts/main_layout.html' %}
+
+{% block title %}Tạo sản phẩm{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Tạo sản phẩm</h2>
+
+    <form method="post" action="{% url 'product_edit' product.id %}" enctype="multipart/form-data"
+          class="border p-4 rounded bg-light shadow-sm">
+        {% csrf_token %}
+
+        <!-- Hiển thị lỗi toàn cục của form -->
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+            <div>{{ error }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Hiển thị các field -->
+        {% for field in form %}
+        <div class="mb-3">
+            <label class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <div class="text-danger">
+                {% for error in field.errors %}
+                <div>{{ error }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a href="/" class="btn btn-secondary">Huỷ</a>
+    </form>
+</div>
+{% endblock %}
